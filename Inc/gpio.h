@@ -11,15 +11,31 @@
 #include <stdint.h>
 #include "base.h"
 
-// Configuring GPIO and RCC Registers
-#define GPIOA_MODER	(*(volatile uint32_t *) (GPIOA_BASE + 0x00))
-#define GPIOA_PUPDR	(*(volatile uint32_t *) (GPIOA_BASE + 0x0C))
-#define GPIOA_IDR		(*(volatile uint32_t *) (GPIOA_BASE + 0x10))
+/* GPIO register map
+ *
+ * Each GPIO register is 32-bit wide and located at a fixed offset from the
+ * GPIO base address. Since C structure members are laid out sequentially
+ * in memory, defining the registers as consecutive uint32_t members allows
+ * the structure layout to match the hardware register map exactly.
+ *
+ * By casting the GPIO base address to this structure type, individual
+ * registers can be accessed directly without explicitly defining offsets.
+ */
+typedef struct {
+    volatile uint32_t MODER;    /* offset 0x00 */
+    volatile uint32_t OTYPER;   /* offset 0x04 */
+    volatile uint32_t OSPEEDR;  /* offset 0x08 */
+    volatile uint32_t PUPDR;    /* offset 0x0C */
+    volatile uint32_t IDR;      /* offset 0x10 */
+    volatile uint32_t ODR;      /* offset 0x14 */
+    volatile uint32_t BSRR;     /* offset 0x18 */
+    volatile uint32_t LCKR;     /* offset 0x1C */
+    volatile uint32_t AFRL;     /* offset 0x20 */
+    volatile uint32_t AFRH;     /* offset 0x24 */
+} GPIO_TypeDef;
 
-#define GPIOC_MODER	(*(volatile uint32_t *) (GPIOC_BASE + 0x00))
-#define GPIOC_ODR		(*(volatile uint32_t *) (GPIOC_BASE + 0x14))
-
-#define RCC_AHB1ENR	(*(volatile uint32_t *) (RCC_BASE + 0x30))
+#define GPIOA ((GPIO_TypeDef *) GPIOA_BASE)
+#define GPIOC ((GPIO_TypeDef *) GPIOC_BASE)
 
 // Setting up GPIO pins
 #define KEY_BTN		(1U<<0)
