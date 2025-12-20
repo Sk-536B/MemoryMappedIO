@@ -8,6 +8,7 @@
 #ifndef RCC_H_
 #define RCC_H_
 
+#include <stdint.h>
 #include "base.h"
 
 typedef struct {
@@ -43,5 +44,14 @@ typedef struct {
 } RCC_TypeDef;
 
 #define RCC ((RCC_TypeDef *) RCC_BASE)
+
+typedef struct {
+	volatile uint32_t CR;
+	volatile uint32_t CSR;
+} PWR_TypeDef;
+
+#define PWR ((PWR_TypeDef *) PWR_BASE)
+
+void clock_init(void);
 
 #endif /* RCC_H_ */

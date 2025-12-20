@@ -1,7 +1,9 @@
+#include "rcc.h"
 #include "gpio.h"
 
 int main(void)
 {
+	clock_init();
 	gpio_init();
 
 	uint8_t prev_btn_state = 1;
