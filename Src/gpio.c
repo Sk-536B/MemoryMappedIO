@@ -6,15 +6,8 @@
  */
 
 #include "gpio.h"
-#include "rcc.h"
 
 void gpio_init(void) {
-	// Enable RCC for GPIOA and GPIOC
-	RCC->AHB1ENR |= (1U<<0);
-	RCC->AHB1ENR |= (1U<<2);
-
-	(void)RCC->AHB1ENR;
-
 	// Set GPIO pin A0 mode to Input
 	GPIOA->MODER &= ~(3U<<0);
 
@@ -25,6 +18,14 @@ void gpio_init(void) {
 	// Set GPIO pin C13 mode to Output
 	GPIOC->MODER |= (1U<<26);
 	GPIOC->MODER &= ~(1U<<27);
+
+	// Set AF mode for pin A1
+	GPIOA->MODER &= ~(3U << 2);
+	GPIOA->MODER |= (2U << 2);
+
+	// Select AF1 mode for pin A1
+	GPIOA->AFRL &= ~(15U << 4);
+	GPIOA->AFRL |= (1U << 4);
 }
 
 void gpio_toggle(void) {

@@ -8,7 +8,6 @@
 #include "rcc.h"
 
 void clock_init(void) {
-
 	// HSEON - Enables HSE
 	RCC->CR |= (1U << 16);
 
@@ -24,6 +23,18 @@ void clock_init(void) {
 
 	// SWS - Wait Until HSE is being used
 	while (((RCC->CFGR >> 2) & 3U) != 1);
+
+	// GPIOA and GPIOC Clock Enable
+	RCC->AHB1ENR |= (1U<<0);
+	RCC->AHB1ENR |= (1U<<2);
+
+	(void)RCC->AHB1ENR;
+
+	// TIM2 Clock Enable
+	RCC->APB1ENR &= ~(3U << 0);
+	RCC->APB1ENR |= (1U << 0);
+
+	(void)RCC->APB1ENR;
 }
 
 void systick_init(void) {

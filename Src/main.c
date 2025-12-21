@@ -1,10 +1,10 @@
-#include "rcc.h"
-#include "gpio.h"
+#include "main.h"
 
 int main(void)
 {
 	clock_init();
 	gpio_init();
+	pwm_start();
 
 	// uint8_t prev_btn_state = 1;
 
