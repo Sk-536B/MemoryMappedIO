@@ -43,15 +43,25 @@ typedef struct {
     volatile uint32_t DCKCFGR;        /* 0x8C */
 } RCC_TypeDef;
 
-#define RCC ((RCC_TypeDef *) RCC_BASE)
-
 typedef struct {
 	volatile uint32_t CR;
 	volatile uint32_t CSR;
 } PWR_TypeDef;
 
-#define PWR ((PWR_TypeDef *) PWR_BASE)
+typedef struct {
+	volatile uint32_t CTRL;
+	volatile uint32_t LOAD;
+	volatile uint32_t VAL;
+	volatile uint32_t CALIB;
+}SYSTICK_TypeDef;
+
+#define RCC 		((RCC_TypeDef *) RCC_BASE)
+#define PWR 		((PWR_TypeDef *) PWR_BASE)
+#define SYSTICK ((SYSTICK_TypeDef *) SYSTICK_BASE)
 
 void clock_init(void);
+void systick_init(void);
+void systick_deinit(void);
+void systick_delay_ms(uint32_t delay);
 
 #endif /* RCC_H_ */

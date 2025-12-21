@@ -25,3 +25,32 @@ void clock_init(void) {
 	// SWS - Wait Until HSE is being used
 	while (((RCC->CFGR >> 2) & 3U) != 1);
 }
+
+void systick_init(void) {
+	// For 1ms Tick
+	SYSTICK->LOAD = 24999;
+
+	// Clears the Val register
+	SYSTICK->VAL = 0;
+
+	// Enable Counter, Disable Interrupt, Clock source - Processor Clock
+	SYSTICK->CTRL = 5;
+}
+
+void systick_deinit(void) {
+	// Disable Counter
+	SYSTICK->CTRL = 0;
+}
+
+void systick_delay_ms(uint32_t delay) {
+	systick_init();
+
+	uint32_t count = 0;
+
+	while(count != delay) {
+		while(!(SYSTICK->CTRL & (1U << 16)));
+		count++;
+	}
+
+	systick_deinit();
+}
