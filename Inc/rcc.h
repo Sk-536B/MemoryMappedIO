@@ -55,9 +55,19 @@ typedef struct {
 	volatile uint32_t CALIB;
 }SYSTICK_TypeDef;
 
+typedef struct {
+	volatile uint32_t ACR;
+	volatile uint32_t KEYR;
+	volatile uint32_t OPTKEYR;
+	volatile uint32_t SR;
+	volatile uint32_t CR;
+	volatile uint32_t OPTCR;
+}FLASH_TypeDef;
+
 #define RCC 		((RCC_TypeDef *) RCC_BASE)
 #define PWR 		((PWR_TypeDef *) PWR_BASE)
 #define SYSTICK ((SYSTICK_TypeDef *) SYSTICK_BASE)
+#define FLASH		((FLASH_TypeDef *) FLASH_BASE)
 
 void clock_init(void);
 void systick_init(void);

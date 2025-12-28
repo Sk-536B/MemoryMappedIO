@@ -14,15 +14,41 @@ void clock_init(void) {
 	// HSERDY - Wait until HSE is Ready
 	while(!(RCC->CR & (1U << 17)));
 
-	// PWREN - Power Enable Clock
+	// PWREN - Enable Power peripheral Clock
 	RCC->APB1ENR |= (1U << 28);
 
-	// SW - Selects HSE as System Clock
-	RCC->CFGR &= ~(3U << 0);
-	RCC->CFGR |= (1U << 0);
+	/*
+	 *	Voltage Scaling
+	 *	0x10 - Scale 2 for upto 84MHZ
+	 */
+	PWR->CR &= ~(3U << 14);
+	PWR->CR |= (2U << 14);
 
-	// SWS - Wait Until HSE is being used
-	while (((RCC->CFGR >> 2) & 3U) != 1);
+	// Flash Latency - 2, Enable Prefetch, Instruction Cache, Data Cache
+	FLASH->ACR = (2U << 0) | (1U << 8) | (1U << 9) | (1U << 10);
+
+	// Configure APB1 max Clock speed - AHB/2
+	RCC->CFGR |= (4 << 10);
+
+	/* PLL Configuration */
+	// Clear Necessary bits before setting
+	RCC->PLLCFGR &= ~((63U << 0) | (511U << 6) | (3U << 16) | (15U << 24));
+
+	// PLLM | PLLN | PLLP | PLLQ | PLLSRC - HSE
+	RCC->PLLCFGR |= (25U << 0) | (336U << 6) | (1U << 16) | (7U << 24) | (1U << 22);
+
+	// PLLON
+	RCC->CR |= (1U << 24);
+
+	// PLLRDY - Wait until PLL is Ready
+	while(!(RCC->CR & (1U << 25)));
+
+	// SW - Select PLL as System Clock Source
+	RCC->CFGR &= ~(3U << 0);
+	RCC->CFGR |= (2U << 0);
+
+	// SWS - Wait for status
+	while (((RCC->CFGR >> 2) & 3U) != 2);
 
 	// GPIOA and GPIOC Clock Enable
 	RCC->AHB1ENR |= (1U<<0);
@@ -38,8 +64,8 @@ void clock_init(void) {
 }
 
 void systick_init(void) {
-	// For 1ms Tick
-	SYSTICK->LOAD = 24999;
+	// For 1ms Tick from 25MHZ
+	SYSTICK->LOAD = 83999;
 
 	// Clears the Val register
 	SYSTICK->VAL = 0;

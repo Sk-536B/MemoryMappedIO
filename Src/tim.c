@@ -8,8 +8,8 @@
 #include "tim.h"
 
 void pwm_start(void) {
-	// Prescaler 25, counter increases by 1 every 25 clock pulse
-	TIM2->PSC = 24;
+	// Prescaler
+	TIM2->PSC = 83;
 
 	// Length of each cycle, Each cycle is ARR * PSC long
 	TIM2->ARR = 999;
@@ -17,7 +17,7 @@ void pwm_start(void) {
 	// Setting Duty Cycle
 	TIM2->CCR2 = 500;
 
-	// Configure Channel 1 for PWM mode 1
+	// Configure Channel 2 for PWM mode 1
 	TIM2->CCMR1 &= ~(7U << 12);
 	TIM2->CCMR1 |= (6U << 12);
 
