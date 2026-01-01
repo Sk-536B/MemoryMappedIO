@@ -57,10 +57,14 @@ void clock_init(void) {
 	(void)RCC->AHB1ENR;
 
 	// TIM2 Clock Enable
-	RCC->APB1ENR &= ~(3U << 0);
 	RCC->APB1ENR |= (1U << 0);
 
 	(void)RCC->APB1ENR;
+
+	// SYSCFG Clock Enable
+	RCC->APB2ENR |= (1U << 14);
+
+	(void)RCC->APB2ENR;
 }
 
 void systick_init(void) {

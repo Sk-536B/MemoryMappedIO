@@ -33,7 +33,7 @@ typedef struct {
 	volatile uint32_t DCR;
 	volatile uint32_t DMAR;
 	volatile uint32_t OR;
-}TIMx_TypeDef;
+} TIMx_TypeDef;
 
 void pwm_start(void);
 

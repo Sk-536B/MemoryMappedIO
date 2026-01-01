@@ -5,21 +5,24 @@ int main(void)
 	clock_init();
 	gpio_init();
 	pwm_start();
-
-	// uint8_t prev_btn_state = 1;
+	exti_init();
 
 	/* Loop forever */
 	while(1) {
-		// Gets the GPIO pin A0 state by using KEY_BTN as mask
-		// uint8_t curr_btn_state = (GPIOA->IDR & KEY_BTN) ? 1 : 0;
-
-		// if (prev_btn_state == 1 && curr_btn_state == 0) {
-			gpio_toggle();
-
-			// Debouncing
-			systick_delay_ms(1000);
-		//}
-
-		//prev_btn_state = curr_btn_state;
+		// Loop does nothing
 	}
+}
+
+void EXTI0_IRQHandler(void) {
+	// Clear Interrupt
+	EXTI->PR |= (1U << 0);
+
+	// Configure PWM
+	if (TIM2->CCR2 >= 1000) {
+		TIM2->CCR2 = 0;
+	} else {
+		TIM2->CCR2 += 100;
+	}
+
+	gpio_toggle();
 }

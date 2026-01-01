@@ -11,5 +11,6 @@
 #include "rcc.h"
 #include "gpio.h"
 #include "tim.h"
+#include "it.h"
 
 #endif /* MAIN_H_ */

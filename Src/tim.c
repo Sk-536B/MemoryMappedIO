@@ -15,7 +15,7 @@ void pwm_start(void) {
 	TIM2->ARR = 999;
 
 	// Setting Duty Cycle
-	TIM2->CCR2 = 500;
+	TIM2->CCR2 = 0;
 
 	// Configure Channel 2 for PWM mode 1
 	TIM2->CCMR1 &= ~(7U << 12);

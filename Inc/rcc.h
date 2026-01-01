@@ -53,7 +53,7 @@ typedef struct {
 	volatile uint32_t LOAD;
 	volatile uint32_t VAL;
 	volatile uint32_t CALIB;
-}SYSTICK_TypeDef;
+} SYSTICK_TypeDef;
 
 typedef struct {
 	volatile uint32_t ACR;
@@ -62,7 +62,7 @@ typedef struct {
 	volatile uint32_t SR;
 	volatile uint32_t CR;
 	volatile uint32_t OPTCR;
-}FLASH_TypeDef;
+} FLASH_TypeDef;
 
 #define RCC 		((RCC_TypeDef *) RCC_BASE)
 #define PWR 		((PWR_TypeDef *) PWR_BASE)
