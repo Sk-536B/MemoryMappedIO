@@ -12,5 +12,6 @@
 #include "gpio.h"
 #include "tim.h"
 #include "it.h"
+#include "usart.h"
 
 #endif /* MAIN_H_ */

@@ -35,8 +35,8 @@ typedef struct {
 	volatile uint32_t OR;
 } TIMx_TypeDef;
 
-void pwm_start(void);
-
 #define TIM2 ((TIMx_TypeDef *) TIM2_BASE)
+
+void pwm_start(void);
 
 #endif /* TIM_H_ */

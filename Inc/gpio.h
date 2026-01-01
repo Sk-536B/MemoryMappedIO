@@ -37,10 +37,6 @@ typedef struct {
 #define GPIOA ((GPIO_TypeDef *) GPIOA_BASE)
 #define GPIOC ((GPIO_TypeDef *) GPIOC_BASE)
 
-// Setting up GPIO pins
-#define KEY_BTN		(1U<<0)
-#define USER_LED 	(1U<<13)
-
 // Function prototypes
 void gpio_init(void);
 void gpio_toggle(void);

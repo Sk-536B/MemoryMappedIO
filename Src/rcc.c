@@ -51,19 +51,15 @@ void clock_init(void) {
 	while (((RCC->CFGR >> 2) & 3U) != 2);
 
 	// GPIOA and GPIOC Clock Enable
-	RCC->AHB1ENR |= (1U<<0);
-	RCC->AHB1ENR |= (1U<<2);
-
+	RCC->AHB1ENR |= (1U<<0) | (1U<<2);
 	(void)RCC->AHB1ENR;
 
 	// TIM2 Clock Enable
 	RCC->APB1ENR |= (1U << 0);
-
 	(void)RCC->APB1ENR;
 
-	// SYSCFG Clock Enable
-	RCC->APB2ENR |= (1U << 14);
-
+	// SYSCFG, USART1 Clock Enable
+	RCC->APB2ENR |= (1U << 14) | (1U << 4);
 	(void)RCC->APB2ENR;
 }
 
