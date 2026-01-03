@@ -11,14 +11,14 @@ void usart_init(void) {
 	// Baud rate
 	USART1->BRR = (84000000 + 115200/2) / 115200;
 
-	// Enable Reciever, Transmitter, USART
+	// Enable Receiver, Transmitter, USART
 	USART1->CR1 |= (1U << 2) | (1U << 3) | (1U << 13);
 }
 
 void uart_transmit(const uint8_t *pData, uint32_t len) {
 	for (uint32_t i = 0; i < len; i++) {
 
-		// Wait until Transmit data register is empty
+		// Wait for Transmit data register to be empty
 		while (!(USART1->SR & (1 << 7)));
 
 		// Write the Byte into Data Register
@@ -27,4 +27,15 @@ void uart_transmit(const uint8_t *pData, uint32_t len) {
 
 	// Wait until Transmission is Complete
 	while (!(USART1->SR & (1 << 6)));
+}
+
+void uart_receive(uint8_t *pData, uint32_t len) {
+	for (uint32_t i = 0; i < len; i++) {
+
+		// Wait until Receive data register is ready
+		while (!(USART1->SR & (1 << 5)));
+
+		// Write the Byte in Data Register into Buffer
+		pData[i] = (uint8_t)USART1->DR;
+	}
 }

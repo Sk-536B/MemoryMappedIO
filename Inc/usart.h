@@ -25,5 +25,6 @@ typedef struct {
 
 void usart_init(void);
 void uart_transmit(const uint8_t *pData, uint32_t len);
+void uart_receive(uint8_t *pData, uint32_t len);
 
 #endif /* USART_H_ */

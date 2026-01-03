@@ -1,7 +1,8 @@
+#include <string.h>
 #include "main.h"
 
-uint8_t it_pending = 0;
-uint8_t rx_buff[20] = "Hello world\n";
+volatile uint32_t it_pending = 0;
+uint8_t rx_buff[5];
 
 int main(void)
 {
@@ -25,8 +26,13 @@ int main(void)
 			}
 
 			gpio_toggle();
-			uart_transmit(rx_buff, sizeof(rx_buff));
+
+			char * msg = "Button is Pressed\n\r";
+			uart_transmit((uint8_t *)msg, strlen(msg));
 		}
+
+		uart_receive(rx_buff, sizeof(rx_buff));
+		uart_transmit(rx_buff, sizeof(rx_buff));
 	}
 }
 
